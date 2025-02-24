@@ -15,10 +15,10 @@ interface CardPostProps {
 }
 
 const gridStyles = [
-  "max-h-[500px] grid grid-cols-1 gap-2", // 1 gambar
-  "max-h-[500px] grid grid-cols-2 gap-2", // 2 gambar
-  "max-h-[500px] grid grid-flow-col grid-rows-2 gap-2", // 3 gambar (1 besar atas, 2 bawah)
-  "max-h-[500px] grid grid-cols-2 gap-2", // 4+ gambar (2x2 grid)
+  "grid grid-cols-1 gap-2", // 1 gambar
+  "grid grid-cols-2 gap-2", // 2 gambar
+  "grid grid-flow-col grid-rows-2 gap-2", // 3 gambar (1 besar atas, 2 bawah)
+  "grid grid-cols-2 gap-2", // 4+ gambar (2x2 grid)
 ]
 
 const CardPost: React.FC<CardPostProps> = ({ post }) => {
@@ -40,7 +40,7 @@ const CardPost: React.FC<CardPostProps> = ({ post }) => {
           <AvatarImage src="/placeholder.svg" />
           <AvatarFallback>U{post.userId}</AvatarFallback>
         </Avatar>
-        <div className="flex-1">
+        <div>
           <div className="flex items-center gap-2">
             <span className="font-bold">{post.user.fullname}</span>
             <span className="text-sm text-gray-500">@{post.user.username}</span>
@@ -55,12 +55,12 @@ const CardPost: React.FC<CardPostProps> = ({ post }) => {
             dangerouslySetInnerHTML={{ __html: post.content }}
           ></p>
           <div
-            className={`${gridStyles[Math.min(post.images.length - 1, 3)]} mt-2 w-full`}
+            className={`${gridStyles[Math.min(post.images.length - 1, 3)]} mt-2 max-h-[500px] w-full`}
           >
             {post.images?.slice(0, 4).map((image, index) => (
               <div
                 key={image.id}
-                className={`relative h-full w-full ${
+                className={`relative ${
                   post.images.length === 3 && index === 0
                     ? "col-span-2 row-span-2"
                     : ""
@@ -68,7 +68,7 @@ const CardPost: React.FC<CardPostProps> = ({ post }) => {
               >
                 <img
                   src={image.file}
-                  className={`h-full w-full rounded-lg object-cover`}
+                  className={`h-full ${post.images.length > 4 ? "max-h-[250px]" : "max-h-[500px]"} w-full rounded-lg object-cover`}
                 />
                 {index === 3 && post.images.length > 4 && (
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 text-xl font-bold text-white">
